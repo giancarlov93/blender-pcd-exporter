@@ -2,9 +2,9 @@ schema_version = "1.0.0"
 
 # ID must be unique and lower-case (no spaces)
 id = "gv_point_cloud_exporter"
-version = "0.0.2"
-name = "Point Cloud Exporter (.ply)"
-tagline = "Export Point Cloud data to PLY format"
+version = "0.0.4"
+name = "PointCloud and Splat Exporter (.ply)"
+tagline = "Export PointCloud and Splat data to PLY format"
 maintainer = "Giancarlo Viali"
 type = "add-on"
 

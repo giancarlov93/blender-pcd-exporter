@@ -3,12 +3,12 @@ import sys
 from . import exporter
 
 bl_info = {
-    "name": "@GV - Point Cloud Exporter (.ply)",
+    "name": "@GV - PointCloud & Splat Exporter (.ply)",
     "author": "Giancarlo Viali",
     "version": (0, 0, 2),
     "blender": (4, 0, 0),
     "location": "File > Export > Point Cloud (.ply)",
-    "description": "Export Point Cloud data to PLY format",
+    "description": "Export PointCloud and Splat data to PLY format",
     "warning": "",
     "wiki_url": "",
     "category": "Import-Export",

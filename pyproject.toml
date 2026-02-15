@@ -1,7 +1,7 @@
 [project]
-name = "blender-model-linker"
-version = "1.0.0"
-description = "A Blender addon for linking external 3D model files to collections. This allows you to easily update and manage your imported models."
+name = "gv_point_cloud_exporter"
+version = "0.0.4"
+description = "A Blender addon for exporting PointCloud and Splat data to PLY format."
 authors = ["Giancarlo Viali"]
 license = "MIT"
 readme = "README.md"
@@ -16,6 +16,3 @@ classifiers = [
 dependencies = [
     "fake-bpy-module>=20231205",
 ]
-
-[project.urls]
-Homepage = "https://github.com/giancarlo-viali/blender-model-linker"
