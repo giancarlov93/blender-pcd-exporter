@@ -1,8 +1,8 @@
 [project]
 name = "gv_point_cloud_exporter"
-version = "0.0.4"
+version = "0.0.5"
 description = "A Blender addon for exporting PointCloud and Splat data to PLY format."
-authors = ["Giancarlo Viali"]
+authors = [{ name = "Giancarlo Viali" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -13,6 +13,4 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Multimedia :: Graphics :: 3D Modeling",
 ]
-dependencies = [
-    "fake-bpy-module>=20231205",
-]
+dependencies = ["fake-bpy-module>=20231205"]

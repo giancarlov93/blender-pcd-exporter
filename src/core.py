@@ -1,4 +1,3 @@
-import struct
 import numpy as np
 
 def _get_fmt_string(properties):

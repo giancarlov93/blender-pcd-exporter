@@ -1,5 +1,4 @@
 import bpy
-import sys
 from . import exporter
 
 bl_info = {

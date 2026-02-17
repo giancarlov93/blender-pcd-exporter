@@ -2,7 +2,7 @@ schema_version = "1.0.0"
 
 # ID must be unique and lower-case (no spaces)
 id = "gv_point_cloud_exporter"
-version = "0.0.4"
+version = "0.0.5"
 name = "PointCloud and Splat Exporter (.ply)"
 tagline = "Export PointCloud and Splat data to PLY format"
 maintainer = "Giancarlo Viali"
@@ -15,7 +15,7 @@ blender_version_min = "4.2.0"
 license = ['SPDX:GPL-3.0-or-later']
 
 # Optional: website, copyright, etc.
-website = "https://giancarlo.vialing.it"
+website = "https://giancarloviali.it"
 tags = ["Import-Export"]
 
 [permissions]
