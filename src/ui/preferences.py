@@ -2,7 +2,7 @@ import bpy
 
 
 class AddonPreferences(bpy.types.AddonPreferences):
-    bl_idname = __package__
+    bl_idname = __package__.split(".")[0]  # "gv_point_cloud_exporter" (top-level package)
 
     enable_analytics: bpy.props.BoolProperty(
         name="Enable Usage Analytics",

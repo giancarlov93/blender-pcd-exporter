@@ -9,7 +9,8 @@ def maybe_show_analytics_prompt() -> None:
     try:
         if not bpy.app.online_access:
             return
-        prefs = bpy.context.preferences.addons[__package__].preferences
+        addon_id = __package__.split(".")[0]
+        prefs = bpy.context.preferences.addons[addon_id].preferences
         if prefs.enable_analytics or prefs.analytics_prompt_dismissed:
             return
     except Exception:
@@ -59,7 +60,8 @@ class AnalyticsPromptAction(bpy.types.Operator):
 
     def execute(self, context):
         try:
-            prefs = context.preferences.addons[__package__].preferences
+            addon_id = __package__.split(".")[0]
+            prefs = context.preferences.addons[addon_id].preferences
             if self.action == 'DISMISS':
                 prefs.analytics_prompt_dismissed = True
             elif self.action == 'ENABLE':

@@ -1,40 +1,59 @@
-# Point Cloud Exporter (.ply)
+# PointCloud & Splat Exporter
 
-A lightweight and efficient dedicated exporter for Blender's **Point Cloud** data structures.
+Export Blender's native **Point Cloud** objects to the most common interchange formats for point cloud and Gaussian Splatting workflows — directly from `File > Export` or the Blender 4.2+ Exporters Panel.
 
-Ideally suited for workflows involving **Geometry Nodes**, this extension allows you to export your generated points directly to the industry-standard **PLY** (Polygon File Format).
+---
 
-## ✨ Key Features
+## 📦 Export formats
 
-- **Native Support**: Designed specifically for Blender's `PointCloud` object type.
-- **Geometry Nodes Ready**: Automatically **applies modifiers** before export, ensuring that your procedurally generated points are captured correctly (can be disabled).
-- **Format Options**: Supports both **ASCII** (readable) and **Binary** (compact/fast) PLY formats.
-- **Seamless Integration**:
-  - Accessible via `File > Export > Point Cloud (.ply)`.
-  - Fully integrated into Blender 4.2+ **Exporters Panel**.
+### Point Cloud — PLY (`.ply`)
+
+Exports all point attributes present in the object to a standard PLY file. Position, normals and colour use canonical property names for maximum compatibility with third-party software. Every additional scalar field, custom vector or boolean mask is preserved automatically — nothing is dropped.
+
+### Gaussian Splat — PLY (`.ply`)
+
+Exports in the standard **3D Gaussian Splatting** PLY layout used by training pipelines and most desktop viewers. All spherical harmonic coefficients are preserved, including the higher-order bands that encode view-dependent colour.
+
+### Gaussian Splat — compact binary (`.splat`)
+
+Exports in the compact **32-byte-per-splat** binary format compatible with antimatter15, Polycam, Luma AI and web-based viewers built on Three.js. Colour is baked from the base SH component; higher-order coefficients are discarded. The result is a small, headerless file that loads instantly in the browser.
+
+---
+
+## ✨ Key features
+
+**Geometry Nodes compatible** — modifiers are evaluated before export by default, so procedurally generated point clouds are captured at their final computed state.
+
+**World-space transforms** — optionally bakes the object's Location, Rotation and Scale into the exported coordinates, with correct handling for both positions and normals.
+
+**Automatic splat detection** — the exporter recognises Gaussian Splat objects automatically. Non-matching objects are listed in the export dialog and skipped, so mixed selections are never a problem.
+
+**ASCII and binary** — PLY exports support both formats. Binary is the default; ASCII is useful for inspection and debugging.
+
+**Exporters Panel** — fully integrated into the Blender 4.2+ Exporters Panel. Attach an exporter to a collection and re-export with a single click, without opening a file dialog each time.
+
+---
 
 ## 🚀 Usage
 
-### via Blender UI
+### File > Export menu
 
 1. Select one or more Point Cloud objects in the 3D Viewport.
-2. Navigate to **File > Export > Point Cloud (.ply)**.
-3. In the export dialog, choose your preferences:
-   - **Selection Only**: Export only specific objects.
-   - **Apply Modifiers**: (Recommended) Evaluate Geometry Nodes before exporting.
-   - **Format**: Binary (default) or ASCII.
-4. Click **Export**.
+2. Go to **File > Export** and choose the desired format:
+   - **Point Cloud (.ply)**
+   - **Gaussian Splat (.ply)**
+   - **Gaussian Splat (.splat)**
+3. Set options in the sidebar and click **Export**.
 
-### via Blender 4.2+ Exporters Panel
+### Exporters Panel (Blender 4.2+)
 
-1. Make a new collection and link your Point Cloud objects to it.
-2. Navigate to **Collection tab > Exporters**.
-3. Add a new exporter and select **Point Cloud (.ply)**.
-4. In the export dialog, choose your preferences:
-   - **Format**: Binary (default) or ASCII.
-   - **Apply Modifiers**: (Recommended) Evaluate Geometry Nodes before exporting.
-5. Click **Export**.
+1. Link Point Cloud objects to a collection.
+2. Open **Collection Properties > Exporters**.
+3. Add an exporter entry and select the desired format.
+4. Set the output path and options once; re-export at any time with a single click.
 
-## compatibility
+---
 
-- **Blender 4.2** or newer is required.
+## Compatibility
+
+Requires **Blender 4.2** or newer.

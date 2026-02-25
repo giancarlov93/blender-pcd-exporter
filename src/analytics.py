@@ -1,3 +1,4 @@
+import functools
 import hashlib
 import json
 import platform
@@ -112,3 +113,28 @@ def track(event_name: str, params: dict = None) -> None:
         _spawn(payload, headers)
     except Exception:
         pass  # non bloccare mai l'addon per un errore di analytics
+
+
+def track_event(event_name: str, params_fn=None):
+    """
+    Decoratore che traccia una chiamata di funzione come evento analytics.
+
+    params_fn(*args, **kwargs) -> dict  (opzionale): costruisce i parametri
+    dell'evento a partire dagli argomenti della funzione decorata.
+
+    Per funzioni che restituiscono (bool, str), il tracking avviene solo se
+    il primo elemento è True.
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            should_track = True
+            if isinstance(result, tuple) and result and isinstance(result[0], bool):
+                should_track = result[0]
+            if should_track:
+                params = params_fn(*args, **kwargs) if params_fn else {}
+                track(event_name, params)
+            return result
+        return wrapper
+    return decorator
