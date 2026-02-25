@@ -1,7 +1,7 @@
 from bpy.props import BoolProperty, StringProperty
 from bpy.types import Operator
 from bpy_extras.io_utils import ExportHelper
-from . import core
+from . import core, analytics, operators
 
 class ExportPLYBase:
     """Shared properties for PLY Exporters"""
@@ -23,18 +23,23 @@ class ExportPLYBase:
         default=True,
     )
 
+    @staticmethod
+    def get_non_pointcloud_names(objects):
+        """Returns names of objects whose base type is not POINTCLOUD."""
+        return [obj.name for obj in objects if obj.type != 'POINTCLOUD']
+
     def get_objects(self, context, objects, apply_modifiers):
         depsgraph = context.evaluated_depsgraph_get() if apply_modifiers else None
-        
+
         objects_to_export = []
         for obj in objects:
             final_obj = obj
             if apply_modifiers:
                 final_obj = obj.evaluated_get(depsgraph)
-            
+
             if final_obj.type == 'POINTCLOUD':
                 objects_to_export.append(final_obj)
-        
+
         return objects_to_export
 
 class ExportPLYMenu(Operator, ExportHelper, ExportPLYBase):
@@ -62,6 +67,14 @@ class ExportPLYMenu(Operator, ExportHelper, ExportPLYBase):
         layout.prop(self, "apply_transforms")
         layout.prop(self, "selection_only")
 
+        source = context.selected_objects if self.selection_only else list(context.scene.objects)
+        skipped = self.get_non_pointcloud_names(source)
+        if skipped:
+            box = layout.box()
+            box.label(text=f"{len(skipped)} non-PointCloud object(s) will be skipped:", icon='ERROR')
+            for name in skipped:
+                box.label(text=f"  \u2022 {name}", icon='BLANK1')
+
     def execute(self, context):
         if self.selection_only:
             source_objects = context.selected_objects
@@ -74,6 +87,11 @@ class ExportPLYMenu(Operator, ExportHelper, ExportPLYBase):
         
         if success:
             self.report({'INFO'}, message)
+            analytics.track("export_ply", {
+                "format": "ascii" if self.use_ascii else "binary",
+                "object_count": len(objects),
+            })
+            operators.maybe_show_analytics_prompt()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -99,7 +117,20 @@ class ExportPLYPanel(Operator, ExportPLYBase):
         layout.prop(self, "apply_modifiers")
         layout.prop(self, "apply_transforms")
 
-    def execute(self, context):        
+        candidates = []
+        if hasattr(context, "collection") and context.collection:
+            candidates = list(context.collection.all_objects)
+        if not candidates:
+            candidates = list(context.selected_objects)
+
+        skipped = self.get_non_pointcloud_names(candidates)
+        if skipped:
+            box = layout.box()
+            box.label(text=f"{len(skipped)} non-PointCloud object(s) will be skipped:", icon='ERROR')
+            for name in skipped:
+                box.label(text=f"  \u2022 {name}", icon='BLANK1')
+
+    def execute(self, context):
         candidates = []
         
         if hasattr(context, "collection") and context.collection:
@@ -122,6 +153,11 @@ class ExportPLYPanel(Operator, ExportPLYBase):
         
         if success:
             self.report({'INFO'}, message)
+            analytics.track("export_ply", {
+                "format": "ascii" if self.use_ascii else "binary",
+                "object_count": len(objects),
+            })
+            operators.maybe_show_analytics_prompt()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)

@@ -1,5 +1,5 @@
 import bpy
-from . import exporter
+from . import exporter, preferences, analytics, operators
 
 bl_info = {
     "name": "@GV - PointCloud & Splat Exporter (.ply)",
@@ -24,11 +24,14 @@ def menu_func_export(self, context):
     self.layout.operator(exporter.ExportPLYMenu.bl_idname, text="Point Cloud (.ply)")
 
 def register():
+    bpy.utils.register_class(preferences.AddonPreferences)
+    bpy.utils.register_class(operators.AnalyticsPromptAction)
     bpy.utils.register_class(exporter.ExportPLYMenu)
     bpy.utils.register_class(exporter.ExportPLYPanel)
     if hasattr(bpy.types, "FileHandler"):
         bpy.utils.register_class(PLYFileHandler)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
+    analytics.track("addon_register")
 
 def unregister():
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
@@ -36,3 +39,5 @@ def unregister():
         bpy.utils.unregister_class(PLYFileHandler)
     bpy.utils.unregister_class(exporter.ExportPLYPanel)
     bpy.utils.unregister_class(exporter.ExportPLYMenu)
+    bpy.utils.unregister_class(operators.AnalyticsPromptAction)
+    bpy.utils.unregister_class(preferences.AddonPreferences)
