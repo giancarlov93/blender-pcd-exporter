@@ -29,6 +29,7 @@ def register():
 
 
 def unregister():
+    analytics.track("addon_unregister")
     for fn in reversed(_MENU_FUNCS):
         bpy.types.TOPBAR_MT_file_export.remove(fn)
     for cls in reversed(formats.classes + operators.classes + ui.classes):
