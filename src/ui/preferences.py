@@ -19,6 +19,24 @@ class AddonPreferences(bpy.types.AddonPreferences):
         default=False,
     )
 
+    review_prompt_dismissed: bpy.props.BoolProperty(
+        name="Review prompt dismissed",
+        description="Internal flag to track if the user has left a review",
+        default=False,
+    )
+
+    next_review_target: bpy.props.IntProperty(
+        name="Next Review Target",
+        description="The number of exports required before showing the next review prompt",
+        default=5,
+    )
+
+    export_count: bpy.props.IntProperty(
+        name="Total Exports",
+        description="Number of times the user has exported a file using the addon",
+        default=0,
+    )
+
     def draw(self, context):
         layout = self.layout
 

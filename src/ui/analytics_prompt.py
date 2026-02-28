@@ -1,21 +1,11 @@
 import bpy
 
 
-def maybe_show_analytics_prompt() -> None:
+def show_analytics_prompt() -> None:
     """
     Schedula il popup analytics dopo che l'operatore di esportazione è completato.
     Usa popup_menu: chiude automaticamente al click di qualsiasi bottone.
     """
-    try:
-        if not bpy.app.online_access:
-            return
-        addon_id = __package__.split(".")[0]
-        prefs = bpy.context.preferences.addons[addon_id].preferences
-        if prefs.enable_analytics or prefs.analytics_prompt_dismissed:
-            return
-    except Exception:
-        return
-
     def _draw(self, context):
         layout = self.layout
         col = layout.column()

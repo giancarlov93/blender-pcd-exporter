@@ -3,7 +3,7 @@ from bpy.types import Operator
 from bpy_extras.io_utils import ExportHelper
 from .base import ExportPLYBase, ExportSplatBase, ExportSplatBinBase
 from ..formats import export_ply, export_splat_ply, export_splat_bin
-from ..ui.analytics_prompt import maybe_show_analytics_prompt
+from ..ui.prompt_manager import check_prompts
 
 
 class ExportPLYMenu(Operator, ExportHelper, ExportPLYBase):
@@ -47,7 +47,7 @@ class ExportPLYMenu(Operator, ExportHelper, ExportPLYBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -108,7 +108,7 @@ class ExportPLYPanel(Operator, ExportPLYBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -156,7 +156,7 @@ class ExportSplatMenu(Operator, ExportHelper, ExportSplatBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -217,7 +217,7 @@ class ExportSplatPanel(Operator, ExportSplatBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -264,7 +264,7 @@ class ExportSplatBinMenu(Operator, ExportHelper, ExportSplatBinBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)
@@ -324,7 +324,7 @@ class ExportSplatBinPanel(Operator, ExportSplatBinBase):
 
         if success:
             self.report({'INFO'}, message)
-            maybe_show_analytics_prompt()
+            check_prompts()
             return {'FINISHED'}
         else:
             self.report({'ERROR'}, message)

@@ -2,9 +2,9 @@ schema_version = "1.0.0"
 
 # ID must be unique and lower-case (no spaces)
 id = "gv_point_cloud_exporter"
-version = "0.1.1"
-name = "PointCloud and Splat Exporter (.ply)"
-tagline = "Export PointCloud and Splat data to PLY format"
+version = "0.1.2"
+name = "PointCloud and Splat Exporter (.ply, .splat)"
+tagline = "Export PointCloud and Splat data to PLY and SPLAT format"
 maintainer = "Giancarlo Viali"
 type = "add-on"
 
@@ -19,5 +19,5 @@ website = "https://giancarloviali.it"
 tags = ["Import-Export"]
 
 [permissions]
-files = "files"
+files = "Export files on disk"
 network = "Send anonymous usage analytics to Plausible Analytics. (Opt-In)"

@@ -1,7 +1,8 @@
 from .preferences import AddonPreferences
 from .analytics_prompt import AnalyticsPromptAction
+from .review_prompt import ReviewPromptAction
 
-classes = [AddonPreferences, AnalyticsPromptAction]
+classes = [AddonPreferences, AnalyticsPromptAction, ReviewPromptAction]
 
 
 def menu_func_export(self, context):
